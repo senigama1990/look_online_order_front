@@ -83,6 +83,7 @@ userAddForm.onsubmit = (event) => {
 		telephone: telephoneInput.value
 	}
 	users.push(newUser)
+	window.localStorage.setItem('usersData', JSON.stringify(users))
 	userRenderer(users)
 }
 
@@ -103,6 +104,7 @@ foodsForm.onsubmit = function (e) {
 		}
 		foodsSelect.value = 1
 		foodCount.value = null
+		window.localStorage.setItem('ordersData', JSON.stringify(orders))
 		ordersRenderer(userIdHeader.textContent)
 
 	}
