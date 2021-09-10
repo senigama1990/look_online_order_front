@@ -1,3 +1,30 @@
 [
-    {"user_id": 1, "username": "A", "password": "1212", "contact": "+998911364443", "is_admin": true }
+    {
+        "user_id": 1,
+        "username": "ewq",
+        "contact": "+qwe",
+        "password": "qwe",
+        "is_admin": true
+    },
+    {
+        "user_id": 2,
+        "username": "ewq",
+        "contact": "+qwe",
+        "password": "qwe",
+        "is_admin": true
+    },
+    {
+        "user_id": 3,
+        "username": "ewq",
+        "contact": "+qwe",
+        "password": "qwe",
+        "is_admin": true
+    },
+    {
+        "user_id": 4,
+        "username": "ewq",
+        "contact": "+qwe",
+        "password": "qwe",
+        "is_admin": true
+    }
 ]
