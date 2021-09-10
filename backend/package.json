@@ -1,0 +1,28 @@
+{
+  "name": "look_food_order",
+  "version": "1.0.0",
+  "description": "app for ordering fast foods in look",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/senigama1990/look_online_order_front.git"
+  },
+  "keywords": [
+    "order",
+    "fast_food",
+    "look"
+  ],
+  "author": "Avezov_Sukhrob",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/senigama1990/look_online_order_front/issues"
+  },
+  "homepage": "https://github.com/senigama1990/look_online_order_front#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
