@@ -1,11 +1,20 @@
 const express = require('express')
 const fs = require('fs')
 const path = require('path')
+const {sign, verify} = require('./lib/jwt')
 const host = 'localhost'
 const PORT = 4500
 const app = express()
 
 app.use(express.json())
+
+function checkPermission(req, res, next) {
+    const { token } = req.headers
+    const payload = verify(token)
+    if (payload.is_admin) {
+        next()        
+    } res.status(405).json({message: "Yoy are not allowed"})
+}
 
 app.get('/api/users', (req, res) => {
     let users = require('./database/users.json')
@@ -21,7 +30,7 @@ app.get('/api/users/:userId', (req, res) => {
     } else return res.status(404).json({ message: "The order is not found!" })
 })
 
-app.post('/api/users', (req, res) => {
+app.post('/api/register', checkPermission, (req, res) => {
     try {
         let { username, contact, password, isAdmin: is_admin } = req.body
         let users = fs.readFileSync(path.join('database', 'users.json'), "UTF-8")
@@ -36,9 +45,36 @@ app.post('/api/users', (req, res) => {
         }
         users.push(newUser)
         fs.writeFileSync(path.join("database", "users.json"), JSON.stringify(users, null, 4))
-        res.status(201).json({message: "The user has been added!", body: newUser})
+        delete newUser.password
+        res.status(201).json({
+            message: "The user has been added!",
+            body: {userId: newUser.user_id, username: newUser.username},
+            token: sign(newUser)
+        })
     } catch (error) {
         res.status(400).json({ message: error.message})
+
+    }
+})
+
+app.post('/api/login', (req, res) => {
+    try {
+        let { username, password } = req.body
+        let users = fs.readFileSync(path.join('database', 'users.json'), "UTF-8")
+        users = users ? JSON.parse(users) : []
+        let user = users.find(user => user.username == username && user.password == password)
+        if (user) {
+            delete user.password
+            res.status(200).json({
+                message: "The user has been logged in!",
+                body: { userId: user.user_id, username: user.username },
+                token: sign(user)
+            })         
+        } else {
+            throw "Wrong username or password!"
+        }
+    } catch (error) {
+        res.status(400).json({ message: error })
 
     }
 })
@@ -76,7 +112,7 @@ app.get('/api/orders/:orderId', (req, res) => {
     } else return res.status(404).json({message: "The order is not found!"})
 })
 
-app.post('/api/orders', (req, res) => {
+app.post('/api/orders', checkPermission, (req, res) => {
     try {
         let { userId, foodId, count } = req.body
         let orders = fs.readFileSync(path.join('database', 'orders.json'), "UTF-8")

@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/senigama1990/look_online_order_front#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1"
   }
 }
