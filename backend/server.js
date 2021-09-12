@@ -7,13 +7,23 @@ const PORT = 4500
 const app = express()
 
 app.use(express.json())
+app.use(express.static(path.join(__dirname, 'assets')))
+app.use(function (req, res, next) {
+    res.setHeader("Access-Control-Allow-Origin", "*")
+    res.setHeader("Access-Control-Allow-Headers", "*")
+    next()
+})
 
 function checkPermission(req, res, next) {
-    const { token } = req.headers
-    const payload = verify(token)
-    if (payload.is_admin) {
-        next()        
-    } res.status(405).json({message: "Yoy are not allowed"})
+    try {
+        const { token } = req.headers
+        const payload = verify(token)
+        if (payload.is_admin) {
+            next()
+        } res.status(405).json({ message: "You are not allowed!" })
+    } catch (error) {
+        res.status(405).json({ message: error })
+    }
 }
 
 app.get('/api/users', (req, res) => {
@@ -94,12 +104,17 @@ app.get('/api/foods/:foodId', (req, res) => {
 })
 
 app.get('/api/orders', (req, res) => {
-    const {userId} = req.query
+    const { userId } = req.query
     let orders = require('./database/orders.json')
+    let foods = require('./database/foods.json')
+    orders = orders.map(order => {
+        order.food = foods.find(food => food.food_id == order.food_id)
+        return order
+    })
     if (userId) {
         return res.json(orders.filter(order => order.user_id == userId))
     } else {
-        return res.json(orders)        
+        return res.json(orders)
     }
 })
 

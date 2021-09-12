@@ -2,29 +2,19 @@
     {
         "order_id": 1,
         "user_id": 1,
-        "food_id": 2,
-        "count": 30
-    },
-    {
-        "order_id": 2,
-        "user_id": 1,
-        "food_id": 2,
+        "food_id": 1,
         "count": 1
     },
     {
-        "order_id": 3,
+        "order_id": 2,
         "user_id": 2,
-        "food_id": 2,
-        "count": 42
+        "food_id": 3,
+        "count": 2
     },
     {
-        "order_id": 4,
-        "count": null
-    },
-    {
-        "order_id": 5,
-        "user_id": 3,
-        "food_id": 2,
-        "count": 8
+        "order_id": 3,
+        "user_id": "1",
+        "food_id": "2",
+        "count": "2"
     }
 ]
